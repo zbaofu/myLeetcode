@@ -259,7 +259,14 @@ int main() {
 	//cout << stringtest.reverseStr("hduiacbuiabwucb",4) << endl;
 
 	//剑指offer 05. 替换空格
-	cout << stringtest.replaceSpace("We are happy.") << endl;
+	//cout << stringtest.replaceSpace("We are happy.") << endl;
+
+	//题151 反转字符串中的单词
+	string m = " we are  happy ";
+	stringtest.removeExtraSpaces(m);
+	cout << m << endl;
+
+	cout << stringtest.reverseWords(m) << endl;
 
 	return 0;
 }

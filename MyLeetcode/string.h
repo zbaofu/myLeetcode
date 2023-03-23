@@ -20,7 +20,8 @@ public:
 	string replaceSpace(string s);
 
 	//题151 反转字符串中的单词
-	string reverseWords(string s);
+	void removeExtraSpaces(string& s); //去除多余空格
+	string reverseWords(string s); 
 
 };
 
