@@ -247,6 +247,7 @@ int main() {
 	/**********************************字符串*********************************/
 	stringSolution stringtest;
 	vector<char> s = { 'h','e','l','l','o' };
+	string m = " we are  happy ";
 	
 
 	//题344 反转字符串 双指针法
@@ -259,7 +260,27 @@ int main() {
 	//cout << stringtest.reverseStr("hduiacbuiabwucb",4) << endl;
 
 	//剑指offer 05. 替换空格
-	cout << stringtest.replaceSpace("We are happy.") << endl;
+	//cout << stringtest.replaceSpace("We are happy.") << endl;
+
+	//题151 反转字符串中的单词
+	/*
+	stringtest.removeExtraSpaces(m);
+	cout << m << endl;
+	cout << stringtest.reverseWords(m) << endl;
+	*/
+
+	//剑指offer58 左旋转字符串
+	//cout << stringtest.reverseLeftWords(m,5) << endl;
+
+	//题28 找出字符串中第一个匹配项的下标
+	/*
+	string  haystack = "leetcode", needle = "leeto";
+	cout << stringtest.strStr(haystack, needle) << endl;
+	*/
+
+	//题459 重复的子字符串
+	string q = "aa";
+	cout << stringtest.repeatedSubstringPattern(q) << endl;
 
 	return 0;
 }
