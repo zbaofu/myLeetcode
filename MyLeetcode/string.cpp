@@ -1,4 +1,4 @@
-#include"string.h"
+#include "string.h"
 
 //题344 反转字符串 双指针法
 vector<char> stringSolution::reverseString(vector<char>& s) {
@@ -58,8 +58,7 @@ string stringSolution::replaceSpace(string s) {
 			s[i - 1] = '2';
 			s[i - 2] = '%';
 			i -= 2;
-		}
-	
+		}	
 	}
 	return s;
 }
@@ -114,3 +113,91 @@ string stringSolution::reverseWords(string s) {
 	return s;
 }
 
+
+
+//剑指offer58 左旋转字符串
+string stringSolution::reverseLeftWords(string s, int n) {
+	reverse(s.begin(), s.begin() + n);
+	reverse(s.begin() + n, s.end());
+	reverse(s.begin(), s.end());
+	return s;
+
+}
+
+
+//题28 找出字符串中第一个匹配项的下标
+// KMP法模式匹配 
+// 构造next数组（前缀表统一减一）
+void stringSolution::getNext(int *next, const string& s) {
+	int j = -1; //前缀末尾，初始为 0-1
+	next[0] = j; // 前缀表第一个元素为 0-1
+	for (int i = 1; i < s.size(); i++) {
+		while (j >= 0 && s[i] != s[j + 1]) {
+			j = next[j]; // 前后缀不同时，回退到前缀表前一位
+		}
+		if (s[i] == s[j + 1]) { // 前后缀相同时，前缀加一
+			j++;
+		}
+		next[i] = j;
+		//cout << next[i] << ' ';
+
+	}
+	//cout << endl;
+}
+
+int stringSolution::strStr(string haystack, string needle) {
+	if (needle.size() == 0) {
+		return 0;
+	}
+
+	int mysize = needle.size() ;
+	// cout << mysize << endl;
+	//int next[mysize];
+	int* next = new int[mysize];// 动态分配内存
+
+	//int next[mysize]; //  数组无法用变量来分配内存
+
+	//int* nexttest = new int(5)
+
+	getNext(next,needle); // 
+
+	int j = -1; //前缀表统一减一
+	for (int i = 0; i < haystack.size(); i++) {
+		while (j >= 0 && haystack[i] != needle[j + 1]) { // 模式串与文本串不匹配
+			j = next[j]; // 回退前缀表前一位
+		}
+		if (haystack[i] == needle[j + 1]) { // 匹配时，j向后移动
+			j++;
+		}
+		if (j == (needle.size() - 1)) {
+			delete[] next; //收回堆上的内存
+			return (i - needle.size() + 1);
+		}
+	}
+	delete[] next;
+	return -1;
+
+}
+
+//题459 重复的子字符串
+//KMP算法
+bool stringSolution::repeatedSubstringPattern(string s) {
+	if (s.size() == 0) {
+		return false;
+	}      
+
+	int mysize = s.size();
+	int* next = new int[mysize];
+
+	getNext(next,s);
+
+	//最长相同前后缀正好不包括一个可重复的子串
+	if (next[mysize - 1] !=-1 && mysize % (mysize - (next[mysize - 1] + 1)) == 0) {
+		delete[] next;
+		return true;
+	}
+
+	delete[] next;
+	return false;
+
+}
