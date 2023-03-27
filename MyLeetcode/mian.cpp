@@ -8,6 +8,7 @@
 #include "Linkedlist.h"
 #include "hashtable.h"
 #include "string.h"
+#include "queue-stack.h"
 
 using namespace std;
 
@@ -279,8 +280,35 @@ int main() {
 	*/
 
 	//题459 重复的子字符串
+	/*
 	string q = "aa";
 	cout << stringtest.repeatedSubstringPattern(q) << endl;
+	*/
+
+	/********************************栈和队列********************************/
+	// 题232 用栈实现队列
+	/*
+	MyQueue queueTest;
+	cout << queueTest.empty() << endl;
+	queueTest.push(4);
+	queueTest.push(5);
+	cout << queueTest.pop() << endl;
+	queueTest.push(45);
+	queueTest.push(15);
+	cout << queueTest.pop() << endl;
+	cout << queueTest.pop() << endl;
+	cout << queueTest.peek() << endl;
+	cout << queueTest.empty() << endl;
+	*/
+
+	// 题225 用队列实现栈
+	MyStack stackTest;
+	stackTest.push(25);
+	stackTest.push(15);
+	cout << stackTest.top() << endl;
+	stackTest.pop();
+	cout << stackTest.top() << endl;
+	cout << stackTest.empty() << endl;
 
 	return 0;
 }

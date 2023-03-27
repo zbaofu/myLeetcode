@@ -30,6 +30,9 @@
     <ClCompile Include="string.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="queue-stack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h">
@@ -42,6 +45,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="string.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="queue-stack.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
