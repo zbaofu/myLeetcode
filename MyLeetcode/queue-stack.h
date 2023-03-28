@@ -8,6 +8,7 @@
 #include <string>
 #include <stack>
 #include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -62,6 +63,26 @@ public:
 	}
 };
 
+class queueSolution {
+public:
+	// 题20 有效的括号
+	bool isValid(string s);
+
+	// 题1047 删除字符串中所有的相邻重复项
+	string removeDuplicates(string s);
+
+	// 题150 逆波兰表达式求值
+	int evalRPN(vector<string>& tokens);
+
+	// 题239 滑动窗口最大值
+	class myQueue; // 自定义单调队列
+	vector<int> maxSlidingWindow(vector<int>& nums, int k);
+
+	// 题347 前K个高频元素
+	//小顶堆 重写优先级队列的比较法则
+	class mycomparison;
+	vector<int> topKFrequent(vector<int>& nums, int k);
+};
 
 
 #endif
