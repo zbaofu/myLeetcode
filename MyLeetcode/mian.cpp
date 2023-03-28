@@ -286,6 +286,7 @@ int main() {
 	*/
 
 	/********************************栈和队列********************************/
+	queueSolution queTest;
 	// 题232 用栈实现队列
 	/*
 	MyQueue queueTest;
@@ -302,6 +303,7 @@ int main() {
 	*/
 
 	// 题225 用队列实现栈
+	/*
 	MyStack stackTest;
 	stackTest.push(25);
 	stackTest.push(15);
@@ -309,6 +311,36 @@ int main() {
 	stackTest.pop();
 	cout << stackTest.top() << endl;
 	cout << stackTest.empty() << endl;
+	*/
+
+	// 题20 有效的括号
+	
+	/*
+	string x = "(){[]{}";
+	cout << queTest.isValid(x) << endl;
+	*/
+
+	// 题1047 删除字符串中所有的相邻重复项
+	/*
+	string w = "abbacv";
+	cout << queTest.removeDuplicates(w) << endl;
+	*/
+	// 题150 逆波兰表达式求值
+	/*
+	vector<string> w = { "4", "13", "5", "/", "+" };
+	cout << queTest.evalRPN(w) << endl;
+	*/
+
+	// 题239 滑动窗口最大值
+	/*
+	vector<int> queres = queTest.maxSlidingWindow(nums1, 2);
+	outputVector(queres);
+	*/
+
+	// 题347 前K个高频元素
+	vector<int> quenum = { 1,1,1,2,2,3 };
+	vector<int> res1 = queTest.topKFrequent(quenum, 2);
+	outputVector(res1);
 
 	return 0;
 }
