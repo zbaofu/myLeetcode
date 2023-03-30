@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
+    <ClCompile Include="binarytree.cpp" />
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="linkedlist.cpp" />
     <ClCompile Include="mian.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h" />
+    <ClInclude Include="binarytree.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="Linkedlist.h" />
     <ClInclude Include="queue-stack.h" />

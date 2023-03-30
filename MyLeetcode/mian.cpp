@@ -9,6 +9,7 @@
 #include "hashtable.h"
 #include "string.h"
 #include "queue-stack.h"
+#include "binarytree.h"
 
 using namespace std;
 
@@ -338,9 +339,26 @@ int main() {
 	*/
 
 	// 题347 前K个高频元素
+	/*
 	vector<int> quenum = { 1,1,1,2,2,3 };
 	vector<int> res1 = queTest.topKFrequent(quenum, 2);
 	outputVector(res1);
+	*/
+
+	/********************************二叉树********************************/
+	int head[7] = { 1,NULL, 2, 3 };
+	int val = 6;
+	int size = sizeof(head) / sizeof(head[0]);
+	TreeNode *bintest;
+	bintest = creatBintree(head,size,0);
+	bintreeSolution bintreeTest;
+
+
+	// 题144 二叉树的前序遍历
+	vector<int> outputvec = bintreeTest.preorderTraversal(bintest);
+	outputVector(outputvec);
+
+
 
 	return 0;
 }
