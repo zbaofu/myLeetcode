@@ -38,6 +38,16 @@ void outputVector(vector<char>& nums) {
 	cout << "]" << endl;
 }
 
+// 函数重载 显示double数组
+void outputVector(vector<double>& nums) {
+	int mySize = nums.size();
+	cout << "[ ";
+	for (int i = 0; i < mySize; i++) {
+		cout << nums[i] << " ";
+	}
+	cout << "]" << endl;
+}
+
 /***************
 函数名：output2Dvector(vector<vector<int>> nums)
 输入：要显示的二维数组
@@ -46,10 +56,11 @@ void outputVector(vector<char>& nums) {
 *************/
 void output2Dvector(vector<vector<int>> nums) {
 	for (int i = 0; i < nums.size(); i++) {
-		for (int j = 0; j < nums[0].size(); j++) {
+		cout << "[ ";
+		for (int j = 0; j < nums[i].size(); j++) {
 			cout << nums[i][j] <<" ";
 		}
-		cout << endl;
+		cout << "]" << endl;
 	}
 }
 
@@ -346,18 +357,39 @@ int main() {
 	*/
 
 	/********************************二叉树********************************/
-	int head[7] = { 1,NULL, 2, 3 };
-	int val = 6;
-	int size = sizeof(head) / sizeof(head[0]);
-	TreeNode *bintest;
-	bintest = creatBintree(head,size,0);
+	int treeroot[] = { 1 ,2,3,4,5,6,1 };
+	int size = sizeof(treeroot) / sizeof(treeroot[0]);
+	TreeNode *bintest = creatBintree(treeroot,size,0);
+	nextNode *bttest = creatBintree1(treeroot, size, 0);
 	bintreeSolution bintreeTest;
-
-
+	
 	// 题144 二叉树的前序遍历
+	/*
 	vector<int> outputvec = bintreeTest.preorderTraversal(bintest);
 	outputVector(outputvec);
+	*/
 
+	// 题102 二叉树的层序遍历
+	
+	vector<vector<int>> out2vec = bintreeTest.levelOrder(bintest);
+	output2Dvector(out2vec);
+	
+	// 题199 二叉树的右视图
+	/*
+	vector<int> bt = bintreeTest.rightSideView(bintest);
+	outputVector(bt);
+	*/
+
+	// 题637 二叉树的层平均值
+	/*
+	vector<double> bt1 = bintreeTest.averageOfLevels(bintest);
+	outputVector(bt1);
+	*/
+
+	// 题116 填充每个节点的下一个右侧节点指针
+	nextNode* btroot = bintreeTest.connect(bttest);
+	bintreeDisplay(btroot);
+	
 
 
 	return 0;
