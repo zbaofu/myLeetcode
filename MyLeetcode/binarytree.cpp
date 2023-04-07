@@ -39,7 +39,8 @@ TreeNode* creatBintree(int *a, int n, int start) {
 
 	return root;
 }
-
+ 
+// 返回含next指针的二叉树
 nextNode* creatBintree1(int *a, int n, int start) {
 	if (a[start] == NULL) return NULL;
 
@@ -71,15 +72,13 @@ nextNode* creatBintree1(int *a, int n, int start) {
 
 	return root;
 
-
-
-
 }
+
 /*************
 函数名：bintreeDisplay(nextNode* node) 
 输入：要显示的二叉树
 返回：无
-描述：将输入二叉表显示在控制台
+描述：将含有next指针的二叉树显示在控制台
 **************/
 void bintreeDisplay(nextNode* node) {
 	if (node == nullptr)return;
@@ -89,6 +88,20 @@ void bintreeDisplay(nextNode* node) {
 		node = node->next;
 	}
 	cout << "] " << endl;
+}
+/*************
+函数名：preorderTradiaplay(TreeNode* root) 
+输入：要显示的二叉树
+返回：无
+描述：将二叉树按前序遍历显示在控制台,递归法
+**************/
+void preorderTradiaplay(TreeNode* root) {
+	if (root == NULL) return;
+	cout << root->val << " ";
+	preorderTradiaplay(root->left);
+	preorderTradiaplay(root->right);
+
+
 }
 
 
@@ -238,7 +251,7 @@ vector<int> bintreeSolution::inorderTraversal2(TreeNode* root) {
 	vector<int> res;
 	stack<TreeNode*> st;
 	TreeNode* cur = root;
-	while (cur != NULL || st.empty()) {
+	while (cur != NULL || !st.empty()) {
 		if (cur != NULL) {
 			st.push(cur);
 			cur = cur->left;
@@ -312,7 +325,7 @@ void bintreeSolution::order(TreeNode* cur, vector<vector<int>>& res, int depth) 
 
 vector<vector<int>> bintreeSolution::levelOrder2(TreeNode* root) {
 	vector<vector<int>> res;
-	int depth = 0;
+	int depth = 0;      
 	order(root,res,depth);
 	return res;
 }
@@ -496,4 +509,85 @@ int bintreeSolution::minDepth(TreeNode* root) {
 	}
 	return depth;
 
+}
+
+
+// 题226 翻转二叉树 递归法
+TreeNode* bintreeSolution::invertTree(TreeNode* root) {
+	if (root == NULL) return root;
+	swap(root->left,root->right);
+	invertTree(root->left);
+	invertTree(root->right);
+	return root;
+}
+
+
+// 题101 对称二叉树 递归法
+bool bintreeSolution::compare(TreeNode* left, TreeNode* right) {
+	// 排除空节点的情况
+	if (left == NULL && right != NULL) return false;
+	else if (left != NULL && right == NULL) return false;
+	else if (left == NULL && right == NULL) return true;
+	// 排除数值不相等
+	else if (left->val != right->val) return false;
+
+	// 数值相等且不为空则向下做递归
+	bool outside = compare(left->left, right->right);
+	bool inside = compare(left->right, right->left);
+	bool isSame = outside && inside;
+	return isSame;
+}
+
+bool bintreeSolution::isSymmetric(TreeNode* root) {
+	if (root == NULL) return true;
+	return compare(root->left, root->right);
+}
+
+// 对称二叉树 迭代法 队列
+bool bintreeSolution::isSymmetric2(TreeNode* root) {
+	if (root == NULL) return true;
+	queue<TreeNode*> que;
+	que.push(root->left);
+	que.push(root->right);
+	while (!que.empty()) {
+		TreeNode* leftnode = que.front(); que.pop();
+		TreeNode* rightnode = que.front(); que.pop();
+		if (!leftnode && !rightnode) {
+			continue;
+		}		
+		if ((!leftnode || !rightnode || (leftnode->val != rightnode->val))) {
+			return false;
+		}	
+		que.push(leftnode->left);
+		que.push(rightnode->right);
+		que.push(leftnode->right);
+		que.push(rightnode->left);
+	}
+	return true;
+}
+
+// 题100 相同的树
+bool bintreeSolution::isSameTree(TreeNode* p, TreeNode* q) {
+	if (p == NULL && q != NULL) return false;
+	else if (p != NULL && q == NULL) return false;
+	else if (p == NULL && q == NULL) return true;
+	else if (p->val != q->val) return false;
+	
+	return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+}
+
+// 题572 另一棵树的子树
+/*
+子树的三种情况：
+两个树相等
+这个树是左树的子树
+这个树hi右树的子树
+*/
+bool bintreeSolution::isSubtree(TreeNode* root, TreeNode* subRoot) {
+	if (root == NULL && subRoot == NULL) return true;
+	else if (root == NULL && subRoot != NULL) return false;
+	//else if (root->val != subRoot->val) return false;
+
+	return isSameTree(root, subRoot)
+		|| isSubtree(root->left, subRoot) || isSubtree(root->right,subRoot);
 }

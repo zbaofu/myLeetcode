@@ -370,7 +370,6 @@ int main() {
 	*/
 
 	// 题102 二叉树的层序遍历
-	
 	vector<vector<int>> out2vec = bintreeTest.levelOrder(bintest);
 	output2Dvector(out2vec);
 	
@@ -387,9 +386,16 @@ int main() {
 	*/
 
 	// 题116 填充每个节点的下一个右侧节点指针
+	/*
 	nextNode* btroot = bintreeTest.connect(bttest);
 	bintreeDisplay(btroot);
-	
+	*/
+
+	// 题226 翻转二叉树
+	TreeNode* bt226 = bintreeTest.invertTree(bintest);
+	vector<vector<int>> out2vec226 = bintreeTest.levelOrder(bt226);
+	output2Dvector(out2vec226); //层序遍历后二叉树显示
+
 
 
 	return 0;

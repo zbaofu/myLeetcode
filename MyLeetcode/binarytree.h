@@ -57,7 +57,8 @@ TreeNode* creatBintree(int *a,int n, int start);
 nextNode* creatBintree1(int *a, int n, int start);
 
 // 二叉树显示
-void bintreeDisplay(nextNode* node);
+void bintreeDisplay(nextNode* node); //显示含有next指针的二叉树
+void preorderTradiaplay(TreeNode* root); // 将二叉树按前序遍历显示
 
 class bintreeSolution {
 public:
@@ -119,6 +120,22 @@ public:
 
 	// 题111 二叉树的最小深度
 	int minDepth(TreeNode* root);
+
+	// 题226 翻转二叉树
+	TreeNode* invertTree(TreeNode* root);
+
+	// 题101 对称二叉树
+	// 递归法
+	bool compare(TreeNode* left, TreeNode* right);
+	bool isSymmetric(TreeNode* root);
+	// 队列迭代法
+	bool isSymmetric2(TreeNode* root);
+
+	// 题100 相同的树
+	bool isSameTree(TreeNode* p, TreeNode* q);
+	
+	// 题572 另一棵树的子树
+	bool isSubtree(TreeNode* root, TreeNode* subRoot);
 
 };
 
