@@ -18,6 +18,7 @@ TreeNode* creatBintree(int *a, int n, int start) {
 	int leftnode = 2 * start + 1;
 	int rightnode = 2 * start + 2;
 	
+
 	// 当前一个节点为空时，子节点位置左移两格
 	if (start > 1 && a[start - 1] == NULL) {
 		 leftnode -= 2;
@@ -29,13 +30,12 @@ TreeNode* creatBintree(int *a, int n, int start) {
 		rightnode -= 2;
 	}
 
-
+	
 	if (leftnode > n - 1) root->left = NULL;
 	else root->left = creatBintree(a, n, leftnode);
-	
-
 	if (rightnode > n - 1) root->right = NULL;
 	else root->right = creatBintree(a, n, rightnode);
+	
 
 	return root;
 }
@@ -471,6 +471,7 @@ nextNode* bintreeSolution::connect(nextNode* root) {
 }
 
 // 题104.二叉树的最大深度
+// 迭代法
 int bintreeSolution::maxDepth(TreeNode* root) {
 	queue<TreeNode*> que;
 	if (root != NULL) que.push(root);
@@ -489,6 +490,51 @@ int bintreeSolution::maxDepth(TreeNode* root) {
 	return depth;
 }
 
+// 递归法
+int bintreeSolution::getdepth(TreeNode* node) {
+	if (node == NULL) return 0;
+	int leftdepth = getdepth(node->left);
+	int rightdepth = getdepth(node->right);
+	int depth = 1 + max(leftdepth,rightdepth);
+	return depth;
+}
+
+int bintreeSolution::maxDepth1(TreeNode* root) {
+	return getdepth(root);
+
+}
+
+// 题559 N叉树的最大深度
+// 递归法
+int bintreeSolution::maxNdepth(Node* root) {
+	if (root == NULL) return 0;
+	int depth = 0;
+	for (int i = 0; i < root->children.size(); i++) {
+		depth = max(depth, maxNdepth(root->children[i]));
+	
+	}
+	return depth + 1;
+}
+// 迭代法
+int bintreeSolution::maxNdepth2(Node* root) {
+	queue<Node*> que;
+	if (root != NULL) que.push(root);
+	int depth = 0;
+	while (!que.empty()) {
+		int size = que.size();
+		depth++;
+		for (int i = 0; i < size; i++) {
+			Node* node = que.front();
+			que.pop();
+			for (int j = 0; j < node->children.size(); j++) {
+				if (node->children[j]) que.push(node->children[j]);
+			
+			}
+		
+		}
+	}
+	return depth;
+}
 
 // 题111 二叉树的最小深度
 int bintreeSolution::minDepth(TreeNode* root) {
@@ -590,4 +636,427 @@ bool bintreeSolution::isSubtree(TreeNode* root, TreeNode* subRoot) {
 
 	return isSameTree(root, subRoot)
 		|| isSubtree(root->left, subRoot) || isSubtree(root->right,subRoot);
+}
+
+// 题222 完全二叉树的节点个数
+//作为普通二叉树 递归法
+int bintreeSolution::getNodesNum(TreeNode* cur) {
+	if (cur == NULL)return 0;
+	int leftNum = getNodesNum(cur->left);
+	int rightNum = getNodesNum(cur->right);
+	int treeNum = leftNum + rightNum + 1;
+	return treeNum;
+}
+
+int bintreeSolution::countNodes(TreeNode* root) {
+	return getNodesNum(root);
+
+}
+
+//作为普通二叉树 迭代法
+int bintreeSolution::countNodes2(TreeNode* root) {
+	queue<TreeNode*> que;
+	if (root != NULL) que.push(root);
+	int res = 0;
+	while (!que.empty()) {
+		int size = que.size();
+		for (int i = 0; i < size; i++) {
+			TreeNode* node = que.front();
+			que.pop();
+			res++;
+			if (node->left) que.push(node->left);
+			if (node->right) que.push(node->right);
+		}
+	}
+	return res;
+}
+
+//作为完全二叉树 递归法
+int bintreeSolution::countNodes3(TreeNode* root) {
+	if (root == NULL) return 0;
+	TreeNode* left = root->left;
+	TreeNode* right = root->right;
+	int leftDepth = 0;
+	int rightDepth = 0;
+	while (left) {
+		left = left->left;
+		leftDepth++;
+	}
+	while (right) {
+		right = right->right;
+		rightDepth++;
+	}
+	if (leftDepth == rightDepth) {
+		return (2 << leftDepth) - 1;
+	
+	}
+	return countNodes3(root->left) + countNodes3(root->right);
+}
+
+// 题110 平衡二叉树
+// 递归法
+int bintreeSolution::getHeight(TreeNode* node) {
+	if (node == NULL) {
+		return 0;
+	}
+	int leftHeight = getHeight(node->left);
+	if (leftHeight == -1) return -1;
+	int rightHeight = getHeight(node->right);
+	if (rightHeight == -1)  return -1;
+	return abs(leftHeight - rightHeight) > 1 ? -1 : 1 + max(leftHeight, rightHeight);
+
+}
+
+
+bool bintreeSolution::isBalanced(TreeNode* root) {
+	return getHeight(root) == -1 ? false : true;
+}
+
+// 题257 二叉树的所有路径
+// 递归法
+void bintreeSolution::pathtraversal(TreeNode* cur, vector<int>& path, vector<string>& res) {
+	path.push_back(cur->val);
+	// 左孩子和右孩子都是空
+	if (cur->left == NULL && cur->right == NULL) {
+		string sPath;
+		for (int i = 0; i < path.size() - 1; i++) {
+			sPath += to_string(path[i]);
+			sPath += "->";
+		}
+		sPath += to_string(path[path.size() - 1]);
+		res.push_back(sPath);
+		return;
+	}
+	if (cur->left) {
+		pathtraversal(cur->left, path, res);
+		path.pop_back();
+	
+	}
+	if (cur->right) {
+		pathtraversal(cur->right, path, res);
+		path.pop_back();
+	}
+}
+
+vector<string> bintreeSolution::binaryTreePaths(TreeNode* root) {
+	vector<string> res;
+	vector<int> path;
+	if (root == NULL) return res;
+	pathtraversal(root, path, res);
+	return res;
+}
+
+
+// 题404 左叶子之和
+// 递归法
+int bintreeSolution::sumOfLeftLeaves1(TreeNode* root) {
+	if (root == NULL) return 0;
+	if (root->left == NULL && root->right == NULL) return 0;
+
+	// 左子树的左叶子
+	int leftValue = sumOfLeftLeaves1(root->left);
+	// 判断左叶子
+	if (root->left && !root->left->left && !root->left->right){
+		leftValue = root->left->val;
+	}
+	int rightValue = sumOfLeftLeaves1(root->right);
+
+	int sum = leftValue + rightValue;
+	return sum;
+}
+
+// 题513 找树左下角的值
+// 递归法
+void bintreeSolution::findBottomtraversal(TreeNode* root, int depth) {
+	// 判断叶子节点
+	if (root->left == NULL && root->right == NULL) {
+		// 更新最大深度
+		if (depth > blmaxDepth) {
+			blmaxDepth = depth;
+			bottomleftresult = root->val;
+		}
+		return;
+	}
+	if (root->left) {
+		depth++;
+		findBottomtraversal(root->left, depth);
+		depth--; //回溯
+	}
+	if (root->right) {
+		depth++;
+		findBottomtraversal(root->right, depth);
+		depth--; //回溯
+	
+	}
+	return;
+}
+int bintreeSolution::findBottomLeftValue1(TreeNode* root) {
+	findBottomtraversal(root, 0);
+	return bottomleftresult;
+}
+
+// 迭代法 层序遍历
+int bintreeSolution::findBottomLeftValue2(TreeNode* root) {
+	queue<TreeNode*> que;
+	if (root != NULL) que.push(root);
+	int result = 0;
+	while (!que.empty()) {
+		int size = que.size();
+		for (int i = 0; i < size; i++) {
+			TreeNode* node = que.front();
+			que.pop();
+			if (i == 0) result = node->val; //第一个元素值
+			if (node->left) que.push(node->left);
+			if (node->right) que.push(node->right);
+		
+		}
+	}
+	return result;
+}
+
+// 题112 路径之和I
+// 递归法
+bool bintreeSolution::hpTraversal(TreeNode* cur, int count) {
+	if (!cur->left && !cur->right&&count == 0) return true;
+	if (!cur->left && !cur->right) return false;
+
+	if (cur->left) {
+		count -= cur->left->val;
+		if (hpTraversal(cur->left, count)) return true;
+		count += cur->left->val;
+	}
+	if (cur->right) {
+		count -= cur->right->val;
+		if (hpTraversal(cur->right, count)) return true;
+		count += cur->right->val;
+	}
+	return false;
+}
+
+bool bintreeSolution::hasPathSum(TreeNode* root, int targetSum) {
+	if (root == NULL) return false;
+	return hpTraversal(root, targetSum - root->val);
+}
+
+// 迭代法 使用栈模拟前序遍历
+bool bintreeSolution::hasPathSum2(TreeNode* root, int targetSum) {
+	if (root == NULL) return false;
+	stack<pair<TreeNode*, int>> st;
+	st.push(pair<TreeNode*, int>(root, root->val));
+	while (!st.empty()) {
+		pair<TreeNode*, int> node = st.top();
+		st.pop();
+		if (!node.first->left && !node.first->right && targetSum == node.second) return true;
+		// 右节点
+		if (node.first->right) {
+			st.push(pair<TreeNode*, int>(node.first->right, node.second + node.first->right->val));
+		}
+		// 左节点
+		if (node.first->left) {
+			st.push(pair<TreeNode*, int>(node.first->left, node.second + node.first->left->val));
+		}	
+	}
+	return false;
+}
+
+// 题113 路径之和II
+//递归法
+void bintreeSolution::hpIItraversal(TreeNode* cur, int count) {
+	// 找到一条路径
+	if (!cur->left && !cur->right && count == 0) {
+		hpIIres.push_back(hpIIpath);
+		return;
+	}
+	// 到叶子节点但和不为target
+	if (!cur->left && !cur->right) {
+		return;
+	}
+
+	if (cur->left) {
+		hpIIpath.push_back(cur->left->val);
+		count -= cur->left->val;
+		hpIItraversal(cur->left, count);
+		count += cur->left->val; //回溯
+		hpIIpath.pop_back();
+	}
+
+	if (cur->right) {
+		hpIIpath.push_back(cur->right->val);
+		count -= cur->right->val;
+		hpIItraversal(cur->right, count);
+		count += cur->right->val; //回溯
+		hpIIpath.pop_back();
+	}
+	return;
+
+}
+vector<vector<int>> bintreeSolution::pathsum(TreeNode* root, int targetSum) {
+	hpIIpath.clear();
+	hpIIres.clear();
+	if (root == NULL) return hpIIres;
+	hpIIpath.push_back(root->val);
+	hpIItraversal(root, targetSum - root->val);
+	return hpIIres;
+}
+
+// 题106 从中序与后序遍历构造二叉树
+// 递归法
+TreeNode* bintreeSolution::btTraversal(vector<int>& inorder, vector<int>& postorder) {
+	if (postorder.size() == 0) return NULL;
+
+	//后序遍历数组最后一个元素为中间节点
+	int rootValue = postorder[postorder.size() - 1];
+	TreeNode* root = new TreeNode(rootValue);
+
+	// 叶子节点
+	if (postorder.size() == 1) return root;
+
+	// 找到中序节点的切割点
+	int delimiterIndex;
+	for (delimiterIndex = 0; delimiterIndex < inorder.size(); delimiterIndex++) {
+		if (inorder[delimiterIndex] == rootValue) break;
+	}
+	// 切割中序数组
+	// 左闭右开：[ )
+	vector<int> leftInorder(inorder.begin(), inorder.begin() + delimiterIndex);
+	vector<int> rightInorder(inorder.begin() + delimiterIndex + 1, inorder.end());
+
+	// 后序数组舍弃末尾元素
+	postorder.resize(postorder.size() - 1);
+
+	// 切割后序数组
+	// 左闭右开 使用中序数组的大小作为切割点
+	vector<int> leftPostorder(postorder.begin(), postorder.begin() + leftInorder.size());
+	vector<int> rightPostorder(postorder.begin() + leftInorder.size(), postorder.end());
+
+	root->left = btTraversal(leftInorder, leftPostorder);
+	root->right = btTraversal(rightInorder, rightPostorder);
+
+	return root;
+}
+
+TreeNode* bintreeSolution::buildTree(vector<int>& inorder, vector<int>& postorder) {
+	if (inorder.size() == 0 || postorder.size() == 0) return NULL;
+	return btTraversal(inorder, postorder);
+}
+
+
+// 题105 从中序与前序遍历构造二叉树
+// 递归法 用下标索引切割数组
+TreeNode* bintreeSolution::bt2Traversal(vector<int>& inorder, int inorderBegin, int inorderEnd, vector<int>& preorder, int preorderBegin, int preorderEnd) {
+	if (preorderBegin == preorderEnd) return NULL;
+
+	int rootValue = preorder[preorderBegin]; // 根节点为前序遍历数组第一个元素
+	TreeNode* root = new TreeNode(rootValue);
+
+	if (preorderEnd - preorderBegin == 1) return root;
+
+
+	int delimiterIndex;
+	for (delimiterIndex = inorderBegin; delimiterIndex < inorderEnd; delimiterIndex++) {
+		if (inorder[delimiterIndex] == rootValue) break;
+	}
+
+	// 切割中序数组
+	// 中序左区间，左闭右开
+	int leftInorderBegin = inorderBegin;
+	int leftInorderEnd = delimiterIndex;
+	// 中序右区间，左闭右开
+	int rightInorderBegin = delimiterIndex + 1;
+	int rightInorderEnd = inorderEnd;
+
+	// 切割前序数组
+	// 前序左区间 左闭右开
+	int leftPreorderBegin = preorderBegin + 1;
+	int leftPreorderEnd = preorderBegin + 1 + delimiterIndex - inorderBegin;
+	// 前序右区间，左闭右开
+	int rightPreorderBegin = preorderBegin + 1 + (delimiterIndex - inorderBegin);
+	int rightPreorderEnd = preorderEnd;
+
+	root->left = bt2Traversal(inorder, leftInorderBegin, leftInorderEnd, 
+		preorder, leftPreorderBegin, leftPreorderEnd);
+	root->right = bt2Traversal(inorder, rightInorderBegin, rightInorderEnd,
+		preorder, rightPreorderBegin, rightPreorderEnd);
+
+	return root;
+
+}
+
+TreeNode* bintreeSolution::buildTree2(vector<int>& preorder, vector<int>& inorder) {
+	if (inorder.size() == 0 || preorder.size() == 0) return NULL;
+
+	return bt2Traversal(inorder, 0, inorder.size(), preorder, 0, preorder.size());
+}
+
+// 题654 最大二叉树
+// 递归1 用数组分割，不允许空节点进入递归
+TreeNode* bintreeSolution::constructMaximumBinaryTree(vector<int>& nums) {
+	TreeNode* node = new TreeNode(0);
+	// 到叶子节点
+	if (nums.size() == 1) {
+		node->val = nums[0];
+		return node;
+	}
+
+	//找到数组中的最大值和对应下标
+	int maxValue = 0;
+	int maxValueIndex = 0;
+	for (int i = 0; i < nums.size(); i++) {
+		if (nums[i] > maxValue) {
+			maxValue = nums[i];
+			maxValueIndex = i;
+		}
+	}
+	// 最大值为根节点
+	node->val = maxValue;
+	// 最大值下标的左区间 构造左子树
+	// 判断左区间不是空
+	if (maxValueIndex > 0) {
+		vector<int> newVec(nums.begin(), nums.begin() + maxValueIndex);
+		node->left = constructMaximumBinaryTree(newVec);
+	}
+	// 最大值下标的右区间 构造右子树
+	// 判断右区间不是空
+	if (maxValueIndex < (nums.size()-1)) {
+		vector<int> newVec(nums.begin() + maxValueIndex + 1, nums.end());
+		node->right = constructMaximumBinaryTree(newVec);
+	}
+	return node;
+}
+
+
+// 递归二 用下标索引直接分割数组，允许空节点进入递归
+TreeNode* bintreeSolution::cmTraversal(vector<int> nums, int left, int right) {
+	
+	if (left >= right) return NULL;
+
+	int maxValueIndex = left;
+	for (int i = left+1; i < right; i++) {
+		if (nums[i] > nums[maxValueIndex]) maxValueIndex = i;
+	}
+
+	TreeNode* root = new TreeNode(nums[maxValueIndex]);
+
+	root->left = cmTraversal(nums, left, maxValueIndex);
+	root->right = cmTraversal(nums, maxValueIndex + 1, right);
+
+	return root;
+}
+
+TreeNode* bintreeSolution::constructMaximumBinaryTree2(vector<int>& nums) {
+	return cmTraversal(nums, 0, nums.size());
+}
+
+// 题617 合并二叉树
+// 前序遍历 递归 定义新的节点
+TreeNode* bintreeSolution::mergeTrees(TreeNode* root1, TreeNode* root2) {
+	if (root1 == NULL) return root2;
+	if (root2 == NULL) return root1;
+
+	TreeNode* root = new TreeNode(0);
+	root->val = root1->val + root2->val;
+
+	root->left = mergeTrees(root1->left, root2->left);
+	root->right = mergeTrees(root1->right, root2->right);
+	return root;
 }

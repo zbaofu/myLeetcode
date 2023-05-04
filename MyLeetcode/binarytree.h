@@ -116,7 +116,13 @@ public:
 	nextNode* connect(nextNode* root);
 
 	// 题104.二叉树的最大深度
-	int maxDepth(TreeNode* root);
+	int maxDepth(TreeNode* root); //迭代法
+	int maxDepth1(TreeNode* root); //递归法
+	int getdepth(TreeNode* node);
+
+	// 题559 N叉树的最大深度
+	int maxNdepth(Node* root); //递归法
+	int maxNdepth2(Node* root); //迭代法
 
 	// 题111 二叉树的最小深度
 	int minDepth(TreeNode* root);
@@ -136,6 +142,71 @@ public:
 	
 	// 题572 另一棵树的子树
 	bool isSubtree(TreeNode* root, TreeNode* subRoot);
+
+	// 题222 完全二叉树的节点个数
+	int getNodesNum(TreeNode* cur); //作为普通二叉树 递归法
+	int countNodes(TreeNode* root);
+	int countNodes2(TreeNode* cur); //作为普通二叉树 迭代法
+	int countNodes3(TreeNode* root); //作为完全二叉树 递归法
+
+	// 题110 平衡二叉树
+	// 递归法
+	int getHeight(TreeNode* node);
+	bool isBalanced(TreeNode* root);
+
+	// 题257 二叉树的所有路径
+	// 递归法
+	void pathtraversal(TreeNode* cur,vector<int>& path,vector<string>& res); //递归函数
+	vector<string> binaryTreePaths(TreeNode* root);
+
+	// 题404 左叶子之和
+	int sumOfLeftLeaves1(TreeNode* root); // 递归法
+
+	// 题513 找树左下角的值
+	int blmaxDepth = INT_MIN;
+	int bottomleftresult;
+	int findBottomLeftValue1(TreeNode* root); // 递归
+	void findBottomtraversal(TreeNode* root, int depth);
+
+	int findBottomLeftValue2(TreeNode* root); // 迭代法
+
+	// 题112 路径之和I
+	// 递归法
+	bool hpTraversal(TreeNode* cur, int count);
+	bool hasPathSum(TreeNode* root, int targetSum);
+
+	// 迭代法
+	bool hasPathSum2(TreeNode* root, int targetSum);
+
+	// 题113 路径之和II
+	//递归法
+	vector<vector<int>> hpIIres; // 二维数组 记录所有路径
+	vector<int> hpIIpath; // 记录单次路径
+	void hpIItraversal(TreeNode* cur, int count);
+	vector<vector<int>> pathsum(TreeNode* root, int targetSum);
+
+	// 题106 从中序与后序遍历构造二叉树
+	// 递归法
+	TreeNode* btTraversal(vector<int>& inorder, vector<int>& postorder);
+	TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder);
+
+	// 题105 从中序与前序遍历构造二叉树
+	// 递归法
+	TreeNode* bt2Traversal(vector<int>& inorder, int inorderBegin, int inorderEnd,
+		vector<int>& preorder, int preorderBegin, int preorderEnd);
+	TreeNode* buildTree2(vector<int>& preorder, vector<int>& inorder);
+
+	// 题654 最大二叉树
+	// 递归1 用数组分割，不允许空节点进入递归
+	TreeNode* constructMaximumBinaryTree(vector<int>& nums);
+	// 递归二 用下标索引直接分割数组，允许空节点进入递归
+	TreeNode* cmTraversal(vector<int> nums,int left,int right);
+	TreeNode* constructMaximumBinaryTree2(vector<int>& nums);
+
+	// 题617 合并二叉树
+	TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2);
+
+
 
 };
 

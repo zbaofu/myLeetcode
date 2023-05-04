@@ -206,7 +206,7 @@ int main() {
 	/********************************哈希表********************************/
 	hashtableSolution1 hashTest;
 	vector<int>nums1 = { 1, 0, -1, 0, -2, 2 };
-	vector<int>nums2 = { -2,3,-3,-1,2,-1,1};
+	vector<int>nums2 = { -2,3,-3,-1,2,-1,1 };
 
 	// 题242 有效的字母异位词	
 	//string s = "aee";
@@ -261,7 +261,7 @@ int main() {
 	stringSolution stringtest;
 	vector<char> s = { 'h','e','l','l','o' };
 	string m = " we are  happy ";
-	
+
 
 	//题344 反转字符串 双指针法
 	/*
@@ -326,7 +326,7 @@ int main() {
 	*/
 
 	// 题20 有效的括号
-	
+
 	/*
 	string x = "(){[]{}";
 	cout << queTest.isValid(x) << endl;
@@ -357,12 +357,12 @@ int main() {
 	*/
 
 	/********************************二叉树********************************/
-	int treeroot[] = { 1 ,2,3,4,5,6,1 };
+	int treeroot[] = { 1 ,2,3,4,5,6,3 };
 	int size = sizeof(treeroot) / sizeof(treeroot[0]);
-	TreeNode *bintest = creatBintree(treeroot,size,0);
+	TreeNode *bintest = creatBintree(treeroot, size, 0);
 	nextNode *bttest = creatBintree1(treeroot, size, 0);
 	bintreeSolution bintreeTest;
-	
+
 	// 题144 二叉树的前序遍历
 	/*
 	vector<int> outputvec = bintreeTest.preorderTraversal(bintest);
@@ -372,7 +372,7 @@ int main() {
 	// 题102 二叉树的层序遍历
 	vector<vector<int>> out2vec = bintreeTest.levelOrder(bintest);
 	output2Dvector(out2vec);
-	
+
 	// 题199 二叉树的右视图
 	/*
 	vector<int> bt = bintreeTest.rightSideView(bintest);
@@ -392,11 +392,29 @@ int main() {
 	*/
 
 	// 题226 翻转二叉树
+	/*
 	TreeNode* bt226 = bintreeTest.invertTree(bintest);
 	vector<vector<int>> out2vec226 = bintreeTest.levelOrder(bt226);
 	output2Dvector(out2vec226); //层序遍历后二叉树显示
+	*/
 
+	// 题404 左叶子之和
+	/*
+	int leftLeavel[] = {3, 9, 20, NULL, NULL, 15, 7};
+	int lsize = sizeof(leftLeavel) / sizeof(leftLeavel[0]);
+	TreeNode *leftroot = creatBintree(leftLeavel, lsize,0);
+	cout << bintreeTest.sumOfLeftLeaves1(leftroot)<<endl; //递归法
+	*/
 
+	// 题513 找树左下角的值
+	//cout << bintreeTest.findBottomLeftValue2(bintest) << endl;
+
+	// 题112 路径总和
+	//cout << bintreeTest.hasPathSum2(bintest, 50) << endl;
+
+	// 题113 路径总和II
+	vector<vector<int>> hpIIres = bintreeTest.pathsum(bintest, 7);
+	output2Dvector(hpIIres);
 
 	return 0;
 }
