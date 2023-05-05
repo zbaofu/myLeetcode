@@ -1060,3 +1060,385 @@ TreeNode* bintreeSolution::mergeTrees(TreeNode* root1, TreeNode* root2) {
 	root->right = mergeTrees(root1->right, root2->right);
 	return root;
 }
+
+// 题700 二叉搜索树中的搜索
+// 递归 
+TreeNode* bintreeSolution::searchBST(TreeNode* root, int val) {
+	if (root == NULL || root->val == val) return root;
+	TreeNode* res = NULL;
+	if (root->val > val) res = searchBST(root->left, val);
+	if (root->val < val) res = searchBST(root->right, val);
+	return res;
+}
+
+// 迭代法
+TreeNode* bintreeSolution::searchBST2(TreeNode* root, int val) {
+	while (root) {
+		if (root->val > val) root = root->left;
+		else if (root->val < val) root = root->right;
+		else return root;
+	}
+	return NULL;
+}
+
+// 题98 验证二叉搜索树
+// 递归法一 中序遍历将二叉树转换成数组
+void bintreeSolution::BSTtraversal(TreeNode* root) {
+	if (root == NULL) return;
+	BSTtraversal(root->left);
+	BSTvec.push_back(root->val);
+	BSTtraversal(root->right);
+}
+
+bool bintreeSolution::isValidBST(TreeNode* root) {
+	BSTvec.clear();
+	BSTtraversal(root);
+	for (int i = 1; i < BSTvec.size(); i++) {
+		if (BSTvec[i] <= BSTvec[i - 1]) return false;
+	}
+	return true;
+
+}
+
+// 递归法二 中序遍历直接比较前后节点值是否是递增
+bool bintreeSolution::isValidBST2(TreeNode* root) {
+	if (root == NULL) return true;
+
+	bool left = isValidBST2(root->left);
+
+	if (pre != NULL && pre->val >= root->val) return false;
+	pre = root;
+
+	bool right = isValidBST2(root->right);
+	return left && right;
+}
+
+// 题530 二叉搜索树的最小绝对差
+// 递归法一 中序遍历将二叉树转换成数组再求相邻元素差的最小值 直接用上一题的递归函数
+int bintreeSolution::getMinimumDifference(TreeNode* root) {
+	BSTvec.clear();
+	BSTtraversal(root);
+	int res = INT_MAX;
+	for (int i = 1; i < BSTvec.size(); i++) {
+		res = min(res, BSTvec[i] - BSTvec[i - 1]);
+	}
+	return res;
+}
+
+// 递归法二 中序遍历时直接比较相邻元素的差值的大小
+int bintreeSolution::getMinimumDifference2(TreeNode* root) {
+
+	if (root == NULL) return MDres;
+	MDres = getMinimumDifference2(root->left);
+
+	if (pre2 != NULL) {
+		MDres = min(MDres, root->val - pre2->val);
+	}
+	pre2 = root;
+
+	MDres = getMinimumDifference2(root->right);
+	return MDres;
+}
+
+// 题501 二叉搜索树中的众数
+// 递归一 作为普通二叉树 遍历记录每个元素出现的次数
+void bintreeSolution::findmodeBST(TreeNode* root, unordered_map<int, int>& map) {
+	if (root == NULL) return;
+	map[root->val]++;
+	findmodeBST(root->left, map);
+	findmodeBST(root->right, map);
+}
+
+vector<int> bintreeSolution::findMode(TreeNode* root) {
+	unordered_map<int, int> map;
+	vector<int> res;
+	if (root == NULL) return res;
+	findmodeBST(root, map);
+	// 哈希表不能对value排序，转换成vector再用sort排序
+	vector<pair<int, int>> vec(map.begin(),map.end());
+
+	sort(vec.begin(), vec.end(), cmp);
+	res.push_back(vec[0].first);
+	for (int i = 1; i < vec.size(); i++) {
+		if (vec[i].second == vec[0].second) res.push_back(vec[i].first);
+	}
+
+	return res;
+}
+
+// 递归二 作为二叉搜索树来做 中序遍历 左中右
+void bintreeSolution::findmodeBST2(TreeNode* root) {
+	if (root == NULL) return;
+	findmodeBST2(root->left);
+	if (findmodePre == NULL) {
+		count = 1;
+	}
+	else if (findmodePre->val == root->val) {
+		count++;
+	}
+	else {
+		count = 1;
+	}
+	findmodePre = root;
+	if (count == maxCount) {
+		findmodeRes.push_back(root->val);
+	}
+	if (count > maxCount) {
+		maxCount = count;
+		findmodeRes.clear();
+		findmodeRes.push_back(root->val);
+	}
+
+	findmodeBST2(root->right);
+	return;
+}
+
+vector<int> bintreeSolution::findMode2(TreeNode* root) {
+	count = 0;
+	maxCount = 0;
+	findmodeRes.clear();
+
+	findmodeBST2(root);
+	return findmodeRes;
+}
+
+// 题236 二叉树的最近公共祖先
+// 递归法 后序遍历左右中 回溯
+TreeNode* bintreeSolution::lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+	// 终止条件
+	if (root == p || root == q || root == NULL) return root;
+	// 递归遍历左右子树
+	TreeNode* left = lowestCommonAncestor(root->left, p, q);
+	TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+	// 处理中间节点
+	if (left != NULL && right != NULL) return root;
+	if (left == NULL && right != NULL) return right;
+	else if (left != NULL && right == NULL) return left;
+	else { // 左右都为NULL
+		return NULL;
+	}
+}
+
+// 题235 二叉搜索树的最近公共祖先
+// 递归法
+TreeNode* bintreeSolution::lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {
+	if (root == NULL) return root;
+	if (root->val > p->val && root->val > q->val) {
+		TreeNode* left = lowestCommonAncestor2(root->left, p, q);
+		if (left) return left;
+	}
+	if (root->val < p->val&&root->val < q->val) {
+		TreeNode* right = lowestCommonAncestor2(root->right, p, q);
+		if (right) return right;
+	}
+	else return root;
+
+}
+
+// 迭代法
+TreeNode* bintreeSolution::lowestCommonAncestor3(TreeNode* root, TreeNode* p, TreeNode* q) {
+	while (root) {
+		if (root->val > p->val&&root->val > q->val) {
+			root = root->left;
+		}
+		else if (root->val < p->val&&root->val < q->val) {
+			root = root->right;
+		}
+		else return root;
+	}
+	return NULL;
+}
+
+// 题701 二叉搜索树的插入操作
+// 递归法 直接遍历 有返回值
+TreeNode* bintreeSolution::insertIntoBST(TreeNode* root, int val) {
+	// 终止条件
+	if (root == NULL) {
+		TreeNode* cur = new TreeNode(val);
+		return cur;
+	}
+	// 遍历左右子树
+	if (root->val > val) root->left = insertIntoBST(root->left, val);
+	else if (root->val < val) root->right = insertIntoBST(root->right, val);
+	return root;
+
+}
+
+// 迭代法
+TreeNode* bintreeSolution::insertIntoBST2(TreeNode* root, int val) {
+	if (root == NULL) {
+		TreeNode* node = new TreeNode(val);
+		return node;
+	}
+	TreeNode* cur = root;
+	TreeNode* parent = root;
+	while (cur) {
+		parent = cur;
+		if (cur->val > val) cur = cur->left;
+		else if (cur->val < val) cur = cur->right;
+		
+	}
+	TreeNode* node = new TreeNode(val);
+	if (parent->val > val) parent->left = node;
+	else if (parent->val < val) parent->right = node;
+	return root;
+}
+
+
+// 题450 删除二叉搜索树中的节点
+// 递归法
+TreeNode* bintreeSolution::deleteNode(TreeNode* root, int key) {
+	// 终止
+	if (root == NULL) return NULL; // 情况一：不存在等于key的节点
+	if (root->val == key) { //找到要删除的节点
+		// 情况二：key节点为叶子节点
+		if (root->left == NULL && root->right == NULL) {
+			delete root;
+			return NULL;
+		}
+		// 情况三：key节点的左孩子为空
+		else if (root->left == NULL) {
+			TreeNode* tmp = root->right;
+			//root = root->right;
+			delete root; //释放内存
+			return tmp;
+		}
+		// 情况四： key节点的右孩子为空
+		else if (root->right == NULL) {
+			TreeNode* tmp = root->left;
+			//root = root->left;
+			delete root;
+			return tmp;
+		}
+		// 情况五：左右孩子都不为空
+		else {
+			// 将root的左子树放到右子树的最左节点的左孩子位置（二叉搜索树的特性）
+			TreeNode* cur = root->right;
+			while (cur->left) { //找到右子树的最左节点
+				cur = cur->left;
+			}
+			cur->left = root->left;
+			TreeNode* tmp = root;
+			root = root->right;
+			delete tmp;
+			return root;		
+		}
+	}
+	// 遍历左右子树
+	if (root->val > key) root->left = deleteNode(root->left, key);
+	if (root->val < key) root->right = deleteNode(root->right, key);
+	return root;
+
+}
+
+// 题669 修剪二叉搜索树
+// 递归法
+TreeNode* bintreeSolution::trimBST(TreeNode* root, int low, int high) {
+	// 终止条件
+	if (root == NULL) return NULL;
+	// 小于low,则递归右子树 返回右子树根节点，相当于将root替换成root的右子树
+	if (root->val < low) {
+		TreeNode* right = trimBST(root->right, low, high);
+		return right;
+	}
+	// 大于high，则递归左子树
+	if (root->val > high) {
+		TreeNode* left = trimBST(root->left, low, high);
+		return left;
+	}
+	// 遍历左右子树
+	root->left = trimBST(root->left, low, high);
+	root->right = trimBST(root->right, low, high);
+	return root;
+}
+
+// 迭代法
+TreeNode* bintreeSolution::trimBST2(TreeNode* root, int low, int high) {
+	if (!root) return NULL;
+
+	// 将root移动到[low,high]之间，然后在修剪左右区间外的节点
+	while (root && (root->val<low||root->val>high)) {
+		if (root->val < low) root = root->right;
+		else root = root->left;
+	}
+	TreeNode* cur = root;
+	// 向左处理左孩子小于low的情况
+	while (cur) {
+		while (cur->left && cur->left->val < low) {
+			cur->left = cur->left->right;
+		}
+		cur = cur->left;
+	}
+	cur = root;
+	while (cur) {
+		while (cur->right && cur->right->val > high) {
+			cur->right = cur->right->left;
+		}
+		cur = cur->right;
+	
+	}
+	return root;
+}
+
+//题108 将有序数组转换成二叉搜索树
+// 递归法
+TreeNode* bintreeSolution::sortBSTtraversal(vector<int>& nums, int left, int right) {
+	// 终止
+	if (left > right) return NULL;
+
+	int mid = left + ((right - left) / 2);
+	TreeNode* root = new TreeNode(nums[mid]);
+	// TreeNode rot(nums[mid]); 定义对象而不是指针
+
+	root->left = sortBSTtraversal(nums, left, mid - 1);
+	root->right = sortBSTtraversal(nums, mid + 1, right);
+	return root;
+
+}
+
+TreeNode* bintreeSolution::sortedArrayToBST(vector<int>& nums) {
+	TreeNode* root = NULL;
+	root = sortBSTtraversal(nums, 0, nums.size() - 1);
+	return root;
+}
+
+// 题538 把二叉搜索树转换成累加树
+// 递归法
+TreeNode* bintreeSolution::convertBST(TreeNode* root) {
+	// 终止
+	if (root == NULL) return NULL;
+
+	// 右中左遍历
+	convertBST(root->right);
+
+	root->val += convertPre;
+	convertPre = root->val;
+
+	convertBST(root->left);
+	return root;
+
+}
+
+// 迭代法
+TreeNode* bintreeSolution::convertBST2(TreeNode* root) {
+	stack<TreeNode*> st;
+	TreeNode* cur = root;
+	while (cur != NULL || !st.empty()) {
+		if (cur != NULL) {
+			st.push(cur); 
+			cur = cur->right; //遍历右子树
+		}
+		else {
+			//处理中间节点
+			cur = st.top();
+			st.pop();
+			cur->val += convertBSTPre;
+			convertBSTPre = cur->val;
+			cur = cur->left; // 遍历左子树
+		}
+	}
+	return root;
+}
+
+

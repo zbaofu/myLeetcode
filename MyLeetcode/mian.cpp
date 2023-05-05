@@ -357,7 +357,7 @@ int main() {
 	*/
 
 	/********************************二叉树********************************/
-	int treeroot[] = { 1 ,2,3,4,5,6,3 };
+	int treeroot[] = { 1 ,2,3,4,6,6,3 };
 	int size = sizeof(treeroot) / sizeof(treeroot[0]);
 	TreeNode *bintest = creatBintree(treeroot, size, 0);
 	nextNode *bttest = creatBintree1(treeroot, size, 0);
@@ -413,8 +413,17 @@ int main() {
 	//cout << bintreeTest.hasPathSum2(bintest, 50) << endl;
 
 	// 题113 路径总和II
+	/*
 	vector<vector<int>> hpIIres = bintreeTest.pathsum(bintest, 7);
 	output2Dvector(hpIIres);
+	*/
+
+	// 题501 二叉搜索树中的众数
+	// 递归一 作为普通二叉树 遍历记录每个元素出现的次数
+	vector<int> outpvec = bintreeTest.findMode(bintest);
+	outputVector(outpvec);
+
+
 
 	return 0;
 }

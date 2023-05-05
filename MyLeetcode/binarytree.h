@@ -8,6 +8,7 @@
 #include <string>
 #include <stack>
 #include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -206,6 +207,80 @@ public:
 	// 题617 合并二叉树
 	TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2);
 
+	// 题700 二叉搜索树中的搜索
+	// 递归法
+	TreeNode* searchBST(TreeNode* root, int val);
+	// 迭代法
+	TreeNode* searchBST2(TreeNode* root, int val);
+
+	// 题98 验证二叉搜索树
+	// 递归法一 中序遍历将二叉树转换成数组 再判断数组是否是递增的
+	vector<int> BSTvec;
+	void BSTtraversal(TreeNode* root);
+	bool isValidBST(TreeNode* root);
+	// 递归法二 中序遍历直接比较前后节点值是否是递增
+	TreeNode* pre = NULL; // 定义前一个节点
+	bool isValidBST2(TreeNode* root);
+
+	// 题530 二叉搜索树的最小绝对值
+	// 递归法一 中序遍历将二叉树转换成数组再求相邻元素差的最小值 直接用上一题的递归函数
+	int getMinimumDifference(TreeNode* root);
+	// 递归法二 中序遍历时直接比较相邻元素的大小
+	TreeNode* pre2 = NULL;
+	int MDres = INT_MAX;
+	int getMinimumDifference2(TreeNode* root);
+
+	// 题501 二叉搜索树中的众数
+	// 递归一 作为普通二叉树 遍历记录每个元素出现的次数
+	void findmodeBST(TreeNode* root, unordered_map<int, int>& map);
+	vector<int> findMode(TreeNode* root);
+	bool static cmp(const pair<int, int>& a, const pair<int, int>& b) {
+		return a.second > b.second;
+	}
+	// 递归二 作为二叉搜索树来做 
+	int maxCount = 0; // 最大频率
+	int count = 0; // 统计频率
+	TreeNode* findmodePre = NULL;
+	vector<int> findmodeRes;
+	void findmodeBST2(TreeNode* root);
+	vector<int> findMode2(TreeNode* root);
+
+	// 题236 二叉树的最近公共祖先
+	TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
+
+	// 题235 二叉搜索树的最近公共祖先
+	// 递归法
+	TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q);
+	// 迭代法
+	TreeNode* lowestCommonAncestor3(TreeNode* root, TreeNode* p, TreeNode* q);
+
+	// 题701 二叉搜索树的插入操作
+	// 递归法
+	TreeNode* insertIntoBST(TreeNode* root, int val);
+	// 迭代法
+	TreeNode* insertIntoBST2(TreeNode* root, int val);
+
+	// 题450 删除二叉搜索树中的节点
+	TreeNode* deleteNode(TreeNode* root, int key);
+
+	// 题669 修剪二叉搜索树
+	// 递归法
+	TreeNode* trimBST(TreeNode* root, int low, int high);
+	// 迭代法
+	TreeNode* trimBST2(TreeNode* root, int low, int high);
+
+	//题108 将有序数组转换成二叉搜索树
+	// 递归法
+	TreeNode* sortBSTtraversal(vector<int>& nums, int left, int right);
+	TreeNode* sortedArrayToBST(vector<int>& nums);
+
+	// 题538 把二叉搜索树转换成累加树
+	// 递归法
+	int convertPre = 0;
+	TreeNode* convertBST(TreeNode* root);
+	// 迭代法
+	int convertBSTPre = 0;
+	TreeNode* convertBST2(TreeNode* root);
 
 
 };
