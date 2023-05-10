@@ -4,12 +4,16 @@
 #include <time.h>
 #include <ctime>
 #include <chrono>
+#include <string>
 #include "array.h"
 #include "Linkedlist.h"
 #include "hashtable.h"
 #include "string.h"
 #include "queue-stack.h"
 #include "binarytree.h"
+#include "backtracking.h"
+#include "greedy.h"
+#include "dynamicprogram.h"
 
 using namespace std;
 
@@ -30,6 +34,16 @@ void outputVector(vector<int>& nums) {
 }
 // 函数重载 显示字符数组
 void outputVector(vector<char>& nums) {
+	int mySize = nums.size();
+	cout << "[ ";
+	for (int i = 0; i < mySize; i++) {
+		cout << nums[i] << " ";
+	}
+	cout << "]" << endl;
+}
+
+// 函数重载 显示字符串数组
+void outputVector(vector<string> nums) {
 	int mySize = nums.size();
 	cout << "[ ";
 	for (int i = 0; i < mySize; i++) {
@@ -65,15 +79,36 @@ void output2Dvector(vector<vector<int>> nums) {
 }
 
 
+/**********************
+* 函数名：my_memcy_byte
+* 描述：实现一个memcpy函数，按字节实现
+**********************/
+void *my_memcpy_byte(void* dst, const void *src, int n) {
+	// 若目标存储区和原存储区为NULL
+	if (dst == NULL || src == NULL || n <= 0) {
+		return NULL;
+	}
 
-void test_arr() {
-	int array[2][3] = {
-		{0, 1, 2},
-		{3, 4, 5}
-	};
-	cout << &array[0][0] << " " << &array[0][1] << " " << &array[0][2] << endl;
-	cout << &array[1][0] << " " << &array[1][1] << " " << &array[1][2] << endl;
+	// 定义char*型的临时变量
+	char* pdst = (char*)dst;
+	char* psrc = (char*)src;
+
+	// 判断地址上是否有重叠
+	if (pdst > psrc&&pdst < psrc + n) {
+		pdst += n - 1;
+		psrc += n - 1;
+		while (n--) {
+			*pdst-- = *psrc--;
+		}
+	}
+	else {
+		while (n--) {
+			*pdst++ = *psrc++;
+		}
+	}
+	return dst;
 }
+
 
 
 
@@ -370,8 +405,10 @@ int main() {
 	*/
 
 	// 题102 二叉树的层序遍历
+	/*
 	vector<vector<int>> out2vec = bintreeTest.levelOrder(bintest);
 	output2Dvector(out2vec);
+	*/
 
 	// 题199 二叉树的右视图
 	/*
@@ -420,10 +457,56 @@ int main() {
 
 	// 题501 二叉搜索树中的众数
 	// 递归一 作为普通二叉树 遍历记录每个元素出现的次数
+	/*
 	vector<int> outpvec = bintreeTest.findMode(bintest);
 	outputVector(outpvec);
+	*/
+
+	/********************************回溯********************************/
+	backtrackingSolution backtrackingTest;
+
+	// 题77 组合
+	/*
+	int n, k;
+	cin >> n >> k;
+	vector<vector<int>> btres = backtrackingTest.combine(n, k);
+	output2Dvector(btres);
+	*/
+
+	// 题216 组合总和III
+	/*
+	int n, k;
+	cin >> k >> n;
+	vector<vector<int>> btres = backtrackingTest.combinationSum3(k, n);
+	output2Dvector(btres);
+	*/
+
+	// 题17 电话号码的字母组合
+	/*
+	string str1;
+	cin >> str1;
+	vector<string> outputstring;
+	outputstring = backtrackingTest.letterCombinations(str1);
+	outputVector(outputstring);
+	*/
+
+	/********************************贪心********************************/
 
 
+
+	/********************************动态规划********************************/
+	dpSolution dpTest;
+
+	// 题509 斐波那契数列数列
+	/*
+	int fibn;
+	cin >> fibn;
+	cout << dpTest.fib(fibn)<<endl;
+	*/
+
+	// 背包问题测试
+	dpTest.test_wei_bag_problem();
+	dpTest.test_1_wei_bag_problem();
 
 	return 0;
 }

@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
+    <ClCompile Include="backtracking.cpp" />
     <ClCompile Include="binarytree.cpp" />
+    <ClCompile Include="dynamicprogram.cpp" />
+    <ClCompile Include="greedy.cpp" />
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="linkedlist.cpp" />
     <ClCompile Include="mian.cpp" />
@@ -29,7 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h" />
+    <ClInclude Include="backtracking.h" />
     <ClInclude Include="binarytree.h" />
+    <ClInclude Include="dynamicprogram.h" />
+    <ClInclude Include="greedy.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="Linkedlist.h" />
     <ClInclude Include="queue-stack.h" />

@@ -36,6 +36,15 @@
     <ClCompile Include="binarytree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="backtracking.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="greedy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamicprogram.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h">
@@ -54,6 +63,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="binarytree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="backtracking.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="greedy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamicprogram.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
