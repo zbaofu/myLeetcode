@@ -28,8 +28,14 @@ public:
 	// 题494 目标和
 	int findTargetSumWays(vector<int>& nums, int target);
 
+	// 题62 不同路径
+	int uniquePaths(int m, int n);
 
+	// 题64 最小路径和
+	int minPathSum(vector<vector<int>>& grid);
 
+	// 题63 不同路径II
+	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid);
 
 };
 

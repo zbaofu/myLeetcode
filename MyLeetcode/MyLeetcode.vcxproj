@@ -27,6 +27,8 @@
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="linkedlist.cpp" />
     <ClCompile Include="mian.cpp" />
+    <ClCompile Include="monotonicstack.cpp" />
+    <ClCompile Include="others.cpp" />
     <ClCompile Include="queue-stack.cpp" />
     <ClCompile Include="string.cpp" />
   </ItemGroup>
@@ -38,6 +40,8 @@
     <ClInclude Include="greedy.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="Linkedlist.h" />
+    <ClInclude Include="monotonicstack.h" />
+    <ClInclude Include="others.h" />
     <ClInclude Include="queue-stack.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>

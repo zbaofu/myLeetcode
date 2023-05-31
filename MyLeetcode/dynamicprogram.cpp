@@ -118,3 +118,81 @@ int dpSolution::findTargetSumWays(vector<int>& nums, int target) {
 	return dp[bagSize];
 
 }
+
+// 题62 不同路径
+// 二维dp数组
+int dpSolution::uniquePaths(int m, int n) {
+	// 定义m×n的二维数组
+	vector<vector<int>> dp(m, vector<int>(n, 0));
+
+	// 初始化dp数组
+	for (int i = 0; i < m; i++) {
+		dp[i][0] = 1;
+	}
+	for (int j = 0; j < n; j++) {
+		dp[0][j] = 1;
+	}
+
+	// 开始背包
+	for (int i = 1; i < m; i++) {
+		for (int j = 1; j < n; j++) {
+			dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+		}
+	}
+	return dp[m - 1][n - 1];
+}
+
+// 题64 最小路径和
+int dpSolution::minPathSum(vector<vector<int>>& grid) {
+	// 求输入数组的长宽
+	int width = grid[0].size();
+	int length = grid.size();
+
+	vector<vector<int>> dp(length, vector<int>(width, 0));
+	
+	// 初始化
+	for (int i = 1; i < length;i++) {
+		dp[i][0] = grid[i][0] + grid[i - 1][0];
+
+	}
+	for (int j = 1; j < width; j++) {
+		dp[0][j] = grid[0][j] + grid[0][j - 1];
+	}
+
+	// 开始背包
+	for (int i = 1; i < length; i++) {
+		for (int j = 1; j < width; j++) {
+			dp[i][j] = grid[i][j] + min(grid[i - 1][j], grid[i][j - 1]);
+		
+		}
+	}
+	return dp[length - 1][width - 1];
+}
+
+// 题63 不同路径II
+int dpSolution::uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+	int length = obstacleGrid.size();
+	int width = obstacleGrid[0].size();
+
+	// 
+	if (obstacleGrid[0][0] == 1 || obstacleGrid[length - 1][width - 1] == 1) {
+		return 0;
+	}
+
+	// 定义动态规划数组
+	vector<vector<int>> dp(length, vector<int>(width, 0));
+
+	// 初始化数组
+	for (int i = 0; i < length&&obstacleGrid[i][0]; i++) dp[i][0] = 1;
+	for (int j = 0; j < width&&obstacleGrid[0][j]; j++)dp[0][j] = 1;
+
+	// 开始遍历 从左到右，从上到下
+	for (int i = 1; i < length; i++) {
+		for (int j = 1; j < width; j++) {
+			if (obstacleGrid[i][j] == 0) {
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+			}
+		}
+	}
+	return dp[length - 1][width - 1];
+}

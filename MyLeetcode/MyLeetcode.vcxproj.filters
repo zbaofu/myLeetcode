@@ -45,6 +45,12 @@
     <ClCompile Include="dynamicprogram.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="monotonicstack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="others.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array.h">
@@ -72,6 +78,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="dynamicprogram.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="monotonicstack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="others.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
