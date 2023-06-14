@@ -25,6 +25,39 @@ public:
 	// 题55 跳跃游戏
 	bool canJump(vector<int>& nums);
 
+	// 题53 最大子数组和
+	int maxSubArray(vector<int>& nums);
+
+	// 题45 跳跃游戏II
+	int jump(vector<int>& nums);
+
+	// 题1005 K次取反后最大化的数组和
+	static bool cmp(int a, int b) {
+		return abs(a) > abs(b); //按照绝对值从大到小排序
+	}
+	int largestSumAfterKNegations(vector<int>& nums, int k);
+
+	// 题134 加油站
+	int canCompleteCircuit(vector<int>& gas, vector<int>& cost);
+	int canCompleteCircuit2(vector<int>& gas, vector<int>& cost);
+
+	// 题135 分发糖果
+	int candy(vector<int>& ratings);
+
+	// 题860 柠檬水找零
+	bool lemonadeChange(vector<int>& bills);
+
+	// 题406 根据身高重建队列
+	static bool cmp2(vector<int>& a, vector<int>& b) {
+		if (a[0] == b[0]) return a[1] < b[1]; // 身高一样，则k值小的在前
+		return a[0] > b[0];
+	}
+	vector<vector<int>> reconstructQueue(vector<vector<int>>& people);
+
+
+
+
+
 private:
 
 };
