@@ -217,3 +217,128 @@ vector<vector<int>> greedySolution::reconstructQueue(vector<vector<int>>& people
 	return que;
 }
 
+// 题452 用最少数量的箭引爆气球
+int greedySolution::findMinArrowShots(vector<vector<int>>& points) {
+	if (points.size() == 0) return 0;
+	sort(points.begin(), points.end(), cmp3); // 按照左边界从小到大排序
+	int res = 1; // 记录箭的数量
+	for (int i = 0; i < points.size() - 1; i++) {
+		if (points[i][1] < points[i + 1][0]) { // 当前气球与下一个没有重叠，加一箭
+			res++;
+		}
+		else { // 当前气球与下一个重叠，则更新下一个气球右边界为当前和下一气球有边界的最小值
+			points[i+1][1] = min(points[i][1], points[i + 1][1]);
+		}
+	}
+	return res;
+}
+
+// 题435 无重叠区间
+// 思路与上一题类似，只需要在重叠判断加上边界相等情况，最后的返回值为size()-res
+int greedySolution::eraseOverlapIntervals(vector<vector<int>>& intervals) {
+	if (intervals.size() == 0) return 0;
+	sort(intervals.begin(), intervals.end(), cmp3);
+	int res = 1;
+	for (int i = 0; i < intervals.size() - 1; i++) {
+		if (intervals[i][1] <= intervals[i + 1][0]) { //没有重叠
+			res++;
+		}
+		else {
+			intervals[i + 1][1] = min(intervals[i][1], intervals[i + 1][1]);
+		}
+	}
+	return intervals.size() - res;
+}
+
+// 题763 划分字母区间
+vector<int> greedySolution::partitionLabels(string s) {
+	int hash[27] = { 0 }; // 记录每个字母出现的最后位置
+	for (int i = 0; i < s.size(); i++) {
+		hash[s[i] - 'a'] = i;
+	}
+	int left = 0, right = 0;
+	vector<int> res;
+	for (int i = 0; i < s.size(); i++) {
+		right = max(right, hash[s[i] - 'a']);
+		if (i == right) {
+			res.push_back(right - left + 1);
+			left = right + 1;
+		}
+	}
+	return res;
+}
+
+
+// 题56 合并区间
+vector<vector<int>> greedySolution::merge(vector<vector<int>>& intervals) {
+	vector<vector<int>> res; // 定义结果集
+	if (intervals.size() == 0) return res;
+	sort(intervals.begin(), intervals.end(), cmp3); // 按左边界从小到大排序
+	res.push_back(intervals[0]); //第一个区间 
+
+	for (int i = 1; i < intervals.size() ; i++) {
+		if (res.back()[1] < intervals[i][0]) { // 无重叠
+			res.push_back(intervals[i]);
+		}
+		else { // 重叠 更新最后元素的右边界
+			res.back()[1] = max(res.back()[1], intervals[i][1]);
+		}
+	}
+	return res;
+}
+
+// 题738 单调递增的数字
+int greedySolution::monotoneIncreasingDigits(int n) {
+	string str = to_string(n); // 将给定数字转成字符串
+	int flag = str.size();  // 记录需要换成9的起始位
+
+	// 从后向前遍历，找到出现递减的位置
+	for (int i = str.size() - 1; i >= 1; i--) {
+		if (str[i - 1] > str[i]) {// 出现递减 记录递减位置
+			str[i - 1]--;
+			flag = i;
+		} 
+	}
+	// 将出现递减位后数字替换成9
+	for (int i = flag; i < str.size(); i++) {
+		str[i] = '9';
+	}
+	return stoi(str);
+}
+
+// 题968 监控二叉树
+// 二叉树深度优先遍历 后序遍历 左右中
+int greedySolution::cameraTraversal(TreeNode* cur) {
+	// 节点三种状态 0：未覆盖到 1：有摄像头 2：有覆盖
+	// 终止条件 空节点 设置为有覆盖 才能设置叶子节点父节点有摄像头
+	if (cur == NULL) return 2;
+
+	// 遍历
+	int left = cameraTraversal(cur->left);
+	int right = cameraTraversal(cur->right);
+
+	// 情况一 左右节点都有覆盖
+	if (left == 2 && right == 2) return 0;
+
+	// 情况二 左右节点至少有一个无覆盖则需要加一个相机
+	if (left == 0 || right == 0) {
+		res++;
+		return 1;
+	}
+
+	// 情况三 左右节点至少有一个有相机则该节点有覆盖
+	if (left == 1 || right == 1) {
+		return 2;
+	}
+	return -1; // 不会执行到这一步
+
+}
+
+int greedySolution::minCameraCover(TreeNode* root) {
+	res = 0;
+	if (cameraTraversal(root) == 0) { //进行遍历并判断根节点有无覆盖 无覆盖则根节点放置相机
+		res++;
+	}
+	return res;
+}
+

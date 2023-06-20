@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _GREEDY_H_
 #define _GREEDY_H_
 #include <vector>
@@ -7,8 +8,11 @@
 #include <stack>
 #include <queue>
 #include <unordered_map>
+#include "binarytree.h"
 
 using namespace std;
+
+
 
 class greedySolution
 {
@@ -54,8 +58,28 @@ public:
 	}
 	vector<vector<int>> reconstructQueue(vector<vector<int>>& people);
 
+	// 题452 用最少数量的箭引爆气球
+	static bool cmp3(vector<int>& a, vector<int>& b) {
+		return a[0] < b[0];
+	}
+	int findMinArrowShots(vector<vector<int>>& points);
 
+	// 题435 无重叠区间
+	int eraseOverlapIntervals(vector<vector<int>>& intervals);
 
+	// 题763 划分字母区间
+	vector<int> partitionLabels(string s);
+
+	// 题56 合并区间
+	vector<vector<int>> merge(vector<vector<int>>& intervals);
+
+	// 题738 单调递增的数字
+	int monotoneIncreasingDigits(int n);
+
+	// 题968 监控二叉树
+	int res;
+	int cameraTraversal(TreeNode* cur);
+	int minCameraCover(TreeNode* root);
 
 
 private:
@@ -65,4 +89,4 @@ private:
 
 
 #endif // !_GREEDY_H_
-#pragma once
+
