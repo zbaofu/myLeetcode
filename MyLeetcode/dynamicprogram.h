@@ -18,6 +18,9 @@ public:
 	// 题70 爬楼梯
 	int climbStairs(int n);
 
+	// 题746 使用最小花费爬楼梯
+	int minCostClimbingStairs(vector<int>& cost);
+
 	// 背包问题测试
 	void test_wei_bag_problem(); // 二维dp数组
 	void test_1_wei_bag_problem(); // 一维dp数组
@@ -36,6 +39,20 @@ public:
 
 	// 题63 不同路径II
 	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid);
+
+	// 题343 整数拆分
+	int integerBreak(int n);
+
+	// 题96 不同的二叉搜索树
+	int numTrees(int n);
+
+
+	// 题1049 最后一块石头的重量
+	int lastStoneWeightII(vector<int>& stones);
+
+	// 题474 一和零
+	int findMaxForm(vector<string>& strs, int m, int n);
+
 
 };
 

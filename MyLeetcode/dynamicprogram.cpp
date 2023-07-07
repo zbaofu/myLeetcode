@@ -30,6 +30,25 @@ int dpSolution::climbStairs(int n) {
 	return dp[2];
 }
 
+// 题746 使用最小花费爬楼梯
+int dpSolution::minCostClimbingStairs(vector<int>& cost) {
+	if (cost.size() <= 1) return 0;
+	// 定义dp数组 跳到楼顶 +1
+	vector<int> dp(cost.size() + 1);
+
+	// 初始化
+	dp[0] = 0;
+	dp[1] = 0;
+
+	// 开始背包遍历
+	for (int i = 2; i <= cost.size(); i++) {
+		dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+	}
+
+	return dp[cost.size()];
+
+}
+
 // 背包问题测试
 //二维dp数组
 void dpSolution::test_wei_bag_problem() {
@@ -116,7 +135,6 @@ int dpSolution::findTargetSumWays(vector<int>& nums, int target) {
 		}
 	}
 	return dp[bagSize];
-
 }
 
 // 题62 不同路径
@@ -196,4 +214,81 @@ int dpSolution::uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
 		}
 	}
 	return dp[length - 1][width - 1];
+}
+
+// 题343 整数拆分
+int dpSolution::integerBreak(int n) {
+	// 定义动规数组 包括dp[0]
+	vector<int> dp(n + 1);
+
+	// 初始化
+	dp[2] = 1;
+
+	// 开始遍历 从小到大
+	for (int i = 3; i <= n; i++) {
+		for (int j = 1; j <= i / 2; j++) {
+			dp[i] = max(dp[i], max(dp[i - j] * j, (i - j)*j));
+		}
+	}
+
+	return dp[n];
+
+}
+
+
+// 题96 不同的二叉搜索树
+int dpSolution::numTrees(int n) {
+	// 定义动规数组
+	vector<int> dp(n+1);
+
+	// 初始化
+	dp[0] = 1;
+
+	// 开始遍历
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j < i; j++) {
+			dp[i] += dp[j - 1] * dp[i - j];
+		
+		}
+	}
+	return dp[n];
+}
+
+// 题1049 最后一块石头的重量
+int dpSolution::lastStoneWeightII(vector<int>& stones) {
+	// 定义动规数组
+	vector<int> dp(15001, 0);
+	int sum = 0;
+	for (int i = 0; i < stones.size(); i++) {
+		sum += stones[i];
+	}
+	int target = sum / 2;
+	for (int i = 0; i < stones.size(); i++) { // 物品遍历
+		for (int j = target; j >= stones[i]; j--) { // 背包遍历
+			dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+		}
+	}
+	return sum - dp[target] - dp[target];
+
+}
+
+// 题474 一和零
+int dpSolution::findMaxForm(vector<string>& strs, int m, int n) {
+	// 创建dp数组 初始化为0
+	vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+	for (string str : strs) { //遍历物品
+		int Onenum = 0, Zeronum = 0;
+		for (char c : str) {
+			if (c == '0') Zeronum++;
+			else Onenum++;
+		}
+		// 背包遍历
+		for (int i = m; i >= Zeronum; i--) { 
+			for (int j = n; j >= Onenum; j--) {
+				dp[i][j] = max(dp[i][j], dp[i - Zeronum][j - Onenum] + 1);
+			}
+		}
+	}
+	return dp[m][n];
+
 }
