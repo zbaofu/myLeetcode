@@ -292,3 +292,95 @@ int dpSolution::findMaxForm(vector<string>& strs, int m, int n) {
 	return dp[m][n];
 
 }
+
+// 题518 零钱兑换II
+int dpSolution::change(int amount, vector<int>& coins) {
+	// 定义dp数组 
+	vector<int> dp(amount + 1, 0);
+	// 初始化数组
+	dp[0] = 1;
+	// 先遍历物品，再遍历背包 求组合数
+	for (int i = 0; i < coins.size(); i++) {
+		for (int j = coins[i]; j <= amount; j++) {
+			dp[j] += dp[j - coins[i]];
+		}
+	}
+	return dp[amount];
+}
+
+// 题377 组合总和IV
+int dpSolution::combinationSum4(vector<int>& nums, int target) {
+	// 定义dp数组
+	vector<int> dp(target + 1, 0);
+	// 初始化
+	dp[0] = 1;
+	// 先遍历背包再遍历物品，求排列数
+	for (int j = 0; j <= target; j++) {
+		for (int i = 0; i < nums.size(); i++) {
+			if (j - nums[i] >= 0 && dp[j] < INT_MAX - dp[j-nums[i]]) {
+				dp[j] += dp[j - nums[i]];
+			}
+		}
+	}
+	return dp[target];
+
+}
+
+// 爬楼梯（进阶，完全背包）
+int dpSolution::climbStairs2(int n,int m ) {
+	// 定义dp数组
+	vector<int> dp(n + 1, 0);
+
+	// 初始化
+	dp[0] = 1;
+
+	// 遍历顺序 先背包再物品求排列数
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j < -m; j++) {
+			if (i - j >= 0) dp[i] += dp[i - j];
+		}
+	
+	}
+	return dp[n];
+
+}
+
+// 题322 零钱兑换
+int dpSolution::coinChange(vector<int>& coins, int amount) {
+	//定义dp数组
+	vector<int> dp(amount + 1, INT_MAX);
+
+	// 初始化
+	dp[0] = 0;
+
+	//遍历 先物品再背包
+	for (int i = 0; i < coins.size(); i++) { 
+		for (int j = coins[i]; j <= amount; j++) {
+			if (dp[j - coins[i]] != INT_MAX) { // 若是初始值则跳过
+				dp[j] = min(dp[j - coins[i]] + 1, dp[j]); // 递推公式
+			}
+			
+		}
+	
+	}
+	if (dp[amount] == INT_MAX) return -1;
+	return dp[amount];
+}
+
+// 题279 完全平方数
+int dpSolution::numSquares(int n) {
+	// 定义dp数组 递推公式为求最小值，初始化为INT_MAX
+	vector<int> dp(n + 1, INT_MAX);
+
+	// 初始化
+	dp[0] = 0;
+
+	// 遍历 先背包再物品
+	for (int i = 0; i <= n; i++) {
+		for (int j = 1; j*j <= i; j++) {
+			dp[i] = min(dp[i - j * j] + 1, dp[i]); // 递推公式
+		}
+	
+	}
+	return dp[n];
+}

@@ -53,6 +53,20 @@ public:
 	// 题474 一和零
 	int findMaxForm(vector<string>& strs, int m, int n);
 
+	// 题518 零钱兑换II
+	int change(int amount, vector<int>& coins);
+
+	// 题377 组合总和IV
+	int combinationSum4(vector<int>& nums, int target);
+
+    // 爬楼梯（进阶，完全背包）
+	int climbStairs2(int n,int m);
+
+	// 题322 零钱兑换
+	int coinChange(vector<int>& coins, int amount);
+
+	// 题279 完全平方数
+	int numSquares(int n);
 
 };
 
